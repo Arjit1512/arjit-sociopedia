@@ -1,0 +1,41 @@
+.splash-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background:  linear-gradient(135deg,rgb(35, 56, 96)2, #84849d);
+    color: #413f83;
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
+    text-align: center;
+}
+
+.splash-title {
+    font-size: 5rem;
+    font-weight: bold;
+    opacity: 0;
+    animation: fadeInMove 1.5s ease forwards;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+}
+
+.splash-caption {
+    font-size: 1.5rem;
+    margin-top: 10px;
+    font-family: Rubik, 'sans-serif';
+    opacity: 0;
+    animation: fadeInMove 2s ease forwards;
+    animation-delay: 1.5s;
+}
+
+@keyframes fadeInMove {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
