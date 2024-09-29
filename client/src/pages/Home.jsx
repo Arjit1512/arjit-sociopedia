@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { storage } from '../firebase';
 import { faMapMarkerAlt, faBriefcase, faMoon } from '@fortawesome/free-solid-svg-icons';
 const Home = () => {
 
@@ -93,9 +95,8 @@ const Home = () => {
     storingUserInfo();
 
 
-  }, [currentUserID, token, setAllPosts, setUserInfos, data]); ///YOU NEED TO CHANGE THIS AFTERWARDS
+  }, [currentUserID, token, setAllPosts, setUserInfos]); ///YOU NEED TO CHANGE THIS AFTERWARDS
 
-  
   const creatingPost = async (req, res) => {
     const formData = new FormData();
 
@@ -121,7 +122,8 @@ const Home = () => {
         const newData = ({
           description:description,
           image:response.data.imagePath,
-          userId:currentUserID
+          userId:currentUserID,
+          _id:response.data.postId
         });
 
         setAllPosts((prevPosts) => [...prevPosts,newData]);
@@ -137,6 +139,7 @@ const Home = () => {
       console.log('Error: ', error);
     }
   }
+
 
   async function handleAddFriend(friendId) {
     try {
@@ -173,7 +176,7 @@ const Home = () => {
 
       setData(prevData => ({
         ...prevData,
-        friends: prevData.friends.filter(friend => friend !== friendId) 
+        friends: prevData.friends.filter(friend => friend !== friendId)
       }));
 
     } catch (error) {
@@ -196,7 +199,7 @@ const Home = () => {
     }
     setIsDarkMode(!isDarkMode);
   };
-  const handleLogout = async() => {
+  const handleLogout = async () => {
     localStorage.removeItem('token');
     setCurrentUserID(null);
     navigate("/login");
@@ -222,7 +225,7 @@ const Home = () => {
       <div className='section-2'>
         <div className='personal-section'>
           <div className='first-div'>
-            <img src={`http://localhost:3001/${data.dp}`} alt='user.img' />
+            <img src={data.dp} alt='user.img' />
             <div className='flex-col move-up'>
               <h2 className='user-name' onClick={() => navigate(`/personal/${currentUserID}`)}>{data.userName}</h2>
               <p className='fr-length'>{data.friends.length} friends</p>
@@ -268,7 +271,7 @@ const Home = () => {
         <div className='post-div'>
           <h3>What's on your mind today?</h3>
           <div className='first-div flex-row'>
-            <img src={`http://localhost:3001/${data.dp}`} alt='user.img' />
+            <img src={data.dp} alt='user.img' />
             <div className='move-caption'>
               <input type='text' className='caption' value={description} placeholder='Give your post a perfect caption!' onChange={(e) => setDescription(e.target.value)} />
 
@@ -291,7 +294,7 @@ const Home = () => {
           return (
             <div className='card'>
               <div className='flex-row'>
-                <img className='dp' src={`http://localhost:3001/${userInfos[item.userId]?.dp}`} alt='user.img' />
+                <img className='dp' src={userInfos[item.userId]?.dp} alt='user.img' />
                 <div className='move-dp'>
                   <h4>{userInfos[item.userId]?.userName}</h4>
                 </div>
@@ -304,7 +307,7 @@ const Home = () => {
               <p>{item.description}</p>
 
               <div className='outside-img'>
-                <img src={`http://localhost:3001/${item.image}`} alt='feed.img' />
+                <img src={item.image} alt='feed.img' />
               </div>
             </div>
           )
@@ -334,7 +337,7 @@ const Home = () => {
         {userInfos[currentUserID]?.friends.map((friend) => {
           return (
             <div className='friends flex-row'>
-              <img src={`http://localhost:3001/${userInfos[friend]?.dp}`} alt='friend.jpg' />
+              <img src={userInfos[friend]?.dp} alt='friend.jpg' />
               <h3 className='name-friend'>{userInfos[friend]?.userName}</h3>
               <button className='rf' onClick={() => handleRemoveFriend(friend)}>Remove Friend</button>
             </div>
