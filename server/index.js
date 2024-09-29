@@ -177,12 +177,15 @@ app.post('/:userId/createPost', verifyToken, upload.single('image'), async (req,
     try {
         const { userId } = req.params;
         const { description } = req.body;
-        const imagePath = req.file ? req.file.path : null;
 
         const existingUser = await User.findById(userId);
 
         if (!existingUser) {
             return res.status(200).json("new-user");
+        }
+        let imagePath='';
+        if(req.file){
+            imagePath = await uploadImageToFirebase(req.file); 
         }
 
         const newPost = new Post({ userId, description, image: imagePath });
