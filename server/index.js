@@ -18,16 +18,22 @@ dotenv.config();
 // app.use(cors())
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: "http://localhost:3000",
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
+app.options('*', cors()); 
 
 app.use(bodyParser.json({ limit: "30mb", extended: "true" }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: "true" }));
-console.log(process.env.FIREBASE_SERVICE_ACCOUNT_PATH)
+
 //initialize FireBase
+// console.log('Service Account Path:', process.env.FIREBASE_SERVICE_ACCOUNT_PATH);
+// console.log('Storage Bucket:', process.env.FIREBASE_STORAGE_BUCKET);
+
 
 const serviceAccount = JSON.parse(fs.readFileSync(path.resolve(process.env.FIREBASE_SERVICE_ACCOUNT_PATH)));
+// console.log(serviceAccount);
+// console.log('Bucket name:', process.env.FIREBASE_STORAGE_BUCKET);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -37,13 +43,22 @@ admin.initializeApp({
 const bucket = admin.storage().bucket();
 
 const uploadImageToFirebase = async (file) => {
+    console.log('File to be uploaded:', file);
+
     try {
+      // Check if file exists and has valid data
+      if (!file || !file.path) {
+        throw new Error('Invalid file or file path');
+      }
+  
+      console.log('Uploading file:', file.originalname);
+  
       const token = uuidv4(); // To make file public with a unique token
       const metadata = {
         metadata: {
           firebaseStorageDownloadTokens: token
         },
-        contentType: file.mimetype,
+        contentType: file.mimetype || 'application/octet-stream', // Fallback MIME type
         cacheControl: 'public, max-age=31536000'
       };
   
@@ -53,13 +68,17 @@ const uploadImageToFirebase = async (file) => {
         metadata: metadata,
       });
   
+      console.log('File uploaded successfully:', uploadResponse);
+  
       // Make file public
       const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(uploadResponse[0].name)}?alt=media&token=${token}`;
       return publicUrl;
     } catch (error) {
+      console.error('Error during image upload:', error);
       throw new Error('Failed to upload image to Firebase Storage');
     }
   };
+  
   
 
 // Set up storage for uploaded files
@@ -105,8 +124,10 @@ const verifyToken = (req, res, next) => {
 };
 
 
-app.post('/auth/register', async (req, res) => {
+app.post('/auth/register', upload.single('dp'), async (req, res) => {
     const { userName, email, password } = req.body;
+    console.log(req.body);
+    console.log(req.file);
     try {
         if (!userName || !email || !password) return res.status(200).json({ error: "Enter all the details!" });
 
@@ -187,6 +208,7 @@ app.post('/:userId/createPost', verifyToken, upload.single('image'), async (req,
         if(req.file){
             imagePath = await uploadImageToFirebase(req.file); 
         }
+        console.log(imagePath)
 
         const newPost = new Post({ userId, description, image: imagePath });
 
@@ -194,7 +216,7 @@ app.post('/:userId/createPost', verifyToken, upload.single('image'), async (req,
         existingUser.posts.push(newPost._id);
         await existingUser.save();
 
-        return res.status(200).json({message: "Post created successfully!",imagePath});
+        return res.status(200).json({message: "Post created successfully!",imagePath, postId: newPost._id});
     } catch (error) {
         console.log('Error: ', error);
         return res.status(500).json({ error: "Internal Server Error" });

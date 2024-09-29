@@ -50,6 +50,12 @@ const Personal = () => {
     //console.log('SANINIKUDU POSTS= ', allPosts);
 
     async function handleDelete(userId, postId) {
+        console.log('DHEERA : ',postId);
+        if (!postId) {
+            console.log('Post ID is undefined or null');
+            alert('No such post exists')
+            return;
+        }
         try {
             const response = await axios.post(`http://localhost:3001/${userId}/deletePost/${postId}`, {}, {
                 headers: {
@@ -73,14 +79,14 @@ const Personal = () => {
     return (
         <>
             <div className='entire-personal-div'>
-                <img className='bg-img' src={`http://localhost:3001/${userInfos[currentUserID]?.dp}`} alt='user-dp' />
+                <img className='bg-img' src={userInfos[currentUserID]?.dp} alt='user-dp' />
                 <h2>{data.userName}</h2>
                 <div className='friends-div div2'>
                     <h4 className='friend-list'>Friends List</h4>
                     {data?.friends.map((friend) => {
                         return (
                             <div className='friends flex-row'>
-                                <img src={`http://localhost:3001/${userInfos[friend]?.dp}`} alt='friend.jpg' />
+                                <img src={userInfos[friend]?.dp} alt='friend.jpg' />
                                 <h3 className='name-friend'>{userInfos[friend]?.userName}</h3>
                             </div>
                         )
@@ -89,13 +95,15 @@ const Personal = () => {
 
                 <div className='personal-posts'>
                     <h2>Posts</h2>
+                     
                     {allPosts?.map((post) => {
+                        console.log('Post:', post);
                         return (
                             post.userId === currentUserID && (
                                 <div className='seperate-div' key={post._id}>
                                     <div className='s-div'>
                                         <h3>{post.description}</h3>
-                                        <img src={`http://localhost:3001/${post.image}`} alt='friend.jpg' />
+                                        <img src={post?.image} alt='friend.jpg' />
                                         <FontAwesomeIcon 
                                             icon={faTrash} 
                                             className='trash-icon' 

@@ -12,12 +12,12 @@ server/node_modules
 # production
 /build
 
-/server
+server
 .env
 
 firebaseServiceAccountKey.json
 server/firebaseServiceAccountKey.json
-/server/firebaseServiceAccountKey.json
+./server/firebaseServiceAccountKey.json
 
 /server/uploads
 
