@@ -1,0 +1,28 @@
+/* body{
+    overflow-x: hidden;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    width:50%;
+    height:100%;
+}
+.main-div{
+    align-items: center;
+    position: relative;
+    margin-top:15%;
+    left:25%;
+}
+form input{
+    width: 30%;
+}
+
+.main-div a{
+    cursor: pointer;
+    color:blue
+} */
+
+
+form button {
+    cursor: pointer;
+}

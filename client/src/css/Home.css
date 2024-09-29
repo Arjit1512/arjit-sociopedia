@@ -1,0 +1,427 @@
+body {
+    background-color: #F5F5F7;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: white;
+    padding-bottom: 0.3%;
+}
+
+.moon-button {
+    background-color: transparent;
+    position: relative;
+    left:35%;
+    top: 1.5vh;
+    height:40px;
+    width:40px;
+    cursor: pointer;
+    padding: 5px;
+    font-size: 20px;
+}
+
+.navbar h2 {
+    color: rgb(0, 213, 250);
+    font-size: 2rem;
+    margin-left: 5%;
+    font-weight: 800;
+    font-family: Rubik, sans-serif;
+}
+
+.navbar input {
+    height: 5vh;
+    width: 20%;
+    border-radius: 2rem;
+    margin-top: 0.8%;
+    margin-left: 5%;
+    font-size: 1rem;
+}
+
+.personal-section {
+    background-color: white;
+    height: 60vh;
+    width: 20%;
+    border-radius: 5%;
+    position: relative;
+    top: 5vh;
+    left: 3%;
+    padding: 1%;
+}
+
+.personal-section img {
+    width: 5%;
+    border-radius: 100%;
+
+}
+
+.first-div {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    left: 3%;
+    top: 2%;
+}
+.first-div h2{
+    cursor: pointer;
+}
+.first-div h2:hover{
+    color: darkblue;
+    text-decoration: underline
+}
+.move-up {
+    position: relative;
+    bottom: 1.5vh;
+    left: 5%;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.huge {
+    width: 120%;
+}
+
+.huge svg {
+    margin-top: 2%;
+}
+
+.info {
+    position: relative;
+    top: 10%;
+    right: 65%;
+}
+
+.location-text,
+.profession-text {
+    margin-top: 0;
+    margin-left: 3%;
+    width: 120%;
+}
+
+.first-div img {
+    width: 70px;
+    height: 70px;
+    border-radius: 100%;
+    margin-top: 1.5%;
+    object-fit: cover;
+}
+
+.user-name {
+    margin-bottom: 0;
+}
+
+.fr-length {
+    margin-top: 0;
+}
+
+.first-div p {
+    color: grey;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.grey-border {
+    height: 0.5%;
+    width: 95%;
+    position: relative;
+    top: 5%;
+    left: 2%;
+    background-color: grey;
+}
+
+.second-div {
+    position: relative;
+    left: 5%;
+    top: 5%;
+    color: grey;
+}
+
+.second-div h5 {
+    font-weight: 500;
+}
+
+.grey-border.two {
+    height: 0.5%;
+    ;
+}
+
+.space-btw {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.space-btw p {
+    color: black;
+    margin-right: 15%;
+    margin-top: 7%;
+    font-weight: 500;
+    font-family: sans-serif;
+}
+
+.last-div {
+    position: relative;
+    top: 3%;
+    left: 3%;
+}
+
+.last-div h3 {
+    font-weight: 600;
+}
+
+.social-icon {
+    display: flex;
+    flex-direction: row;
+    margin-left: 3%;
+}
+
+.social-icon h5 {
+    position: relative;
+    bottom: 1.8vh;
+    left: 6%;
+    color: gray;
+    font-weight: 600;
+}
+
+/*POSTS SECTION*/
+
+.post-div {
+    background-color: white;
+    height: 200px;
+    position: relative;
+    bottom: 10.5vh;
+    padding: 4%;
+    border-radius: 1rem;
+}
+
+.post-div h3 {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: grey;
+    margin-top: 8px;
+}
+
+.post-div .move-input {
+    position: relative;
+    top: 3vh;
+    margin: 2%;
+}
+
+.move-caption {
+    position: relative;
+    top: 3.4vh;
+    left: 3%;
+}
+
+.caption {
+    padding: 3%;
+    font-size: 1rem;
+    background-color: rgb(198, 180, 180);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    width: 300px;
+    border-radius: 2rem;
+    height: 12px;
+}
+
+.move-input button {
+    background-color: blue;
+    color: white;
+    height: 35px;
+    width: 80px;
+    font-weight: 700;
+    border-radius: 3rem;
+    cursor: pointer;
+    position: relative;
+    bottom: 1vh;
+}
+
+.move-input button:hover {
+    background-color: white;
+    color: blue;
+}
+
+/*main feed section*/
+.home-feed {
+    position: relative;
+    left: 26%;
+    bottom: 55vh;
+    padding: 3%;
+    width: 35%;
+    height: max-content;
+}
+
+.friends-button {
+    position: relative;
+    left: 65%;
+    top: 40%;
+}
+
+.friends-button button {
+    height: 30px;
+    border-radius: 3rem;
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    width: 82px;
+    left: -30px;
+}
+
+.friends-button button:hover {
+    background-color: #78B7D0;
+    color: #FEF9D9;
+}
+
+.card {
+    background-color: white;
+    border-radius: 5%;
+    height: 400px;
+    /* Fixed height for all cards */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    /* To ensure the image doesn't overflow */
+    padding: 5%;
+    padding-bottom: 8%;
+    margin-bottom: 5%;
+    position: relative;
+    bottom: 7vh;
+}
+
+.card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    /* Maintain image aspect ratio */
+    border-radius: 5%;
+    /* Optional: to match card's border radius */
+}
+
+.card p {
+    color: grey;
+    font-weight: 600;
+    margin-top: 23px;
+    text-transform: lowercase;
+}
+
+.card .dp {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    margin-top: 1.5%;
+}
+
+.card h4 {
+    margin-left: 5%;
+    margin-bottom: 1vh;
+    font-size: 1.2rem;
+}
+
+.outside-img {
+    margin-bottom: 15%;
+}
+
+.move-dp {
+    position: relative;
+    bottom: 8%;
+    left: 3%;
+}
+
+/*AD SECTION*/
+
+.ad {
+    height: 530px;
+    width: 30%;
+    border-radius: 1.5rem;
+    background-color: white;
+    position: absolute;
+    z-index: 100;
+    left: 67%;
+    bottom: 17.5%;
+}
+
+.sponsered {
+    margin-left: 5%;
+    font-family: Rubik, sans-serif;
+    margin-top: 5%;
+}
+
+.create-ad {
+    color: grey;
+    font-weight: 400;
+    margin-right: 5%;
+    margin-top: 5%;
+    font-family: Rubik, sans-serif;
+}
+
+.ad img {
+    width: 85%;
+    border-radius: 1.5rem;
+    margin-left: 7.5%;
+}
+
+.ad p {
+    color: gray;
+    margin-left: 5%;
+}
+
+/*FRIENDS SECTION*/
+.friends-div {
+    position: absolute;
+    z-index: 1000;
+    top: 88%;
+    left: 67%;
+    height: max-content;
+    width: 28%;
+    border-radius: 1.5rem;
+    background-color: white;
+    padding: 1%;
+}
+
+.friends-div h4 {
+    font-family: Rubik, sans-serif;
+    font-weight: 600;
+    color: gray;
+}
+
+.friends {
+    margin-bottom: 5%;
+}
+
+.friend-list {
+    margin-bottom: 5%;
+    margin-top: 2%;
+}
+
+.friends img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 100%;
+}
+
+.name-friend {
+    margin-left: 5%;
+}
+
+.rf {
+    height: 40px;
+    border-radius: 3rem;
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    left: 72%;
+    margin-top: 3%;
+}
+
+.rf:hover {
+    background-color: #78B7D0;
+    color: #FEF9D9;
+}

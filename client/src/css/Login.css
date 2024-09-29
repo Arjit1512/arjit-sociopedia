@@ -1,0 +1,145 @@
+.main-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg,rgb(35, 56, 96)2, #84849d);
+    font-family: 'Arial', sans-serif;
+}
+
+form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    max-width: 440px;
+    width: 120%;
+    text-align: center;
+    transition: transform 0.3s ease;
+    padding-right: 4%;
+}
+
+form:hover {
+    transform: translateY(-5px);
+}
+
+form label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+form input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+form input:focus {
+    border-color: #333;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
+}
+.login-div button {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #333;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.login-div button:hover {
+    background-color: #555;
+    transform: translateY(-2px);
+}
+
+.login-div button:active {
+    transform: translateY(0);
+    background-color: #222;
+}
+.logout-div{
+    font-family: Rubik, sans-serif;
+    font-weight: 400;
+    font-size: 0.857143rem;
+    line-height: 1.4375em;
+    color: rgba(0, 0, 0, 0.87);
+    box-sizing: border-box;
+    position: relative;
+    left:42%;
+    top:0.8vh;
+    cursor: text;
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    background-color: rgb(240, 240, 240);
+    width: 150px;
+    border-radius: 0.25rem;
+    padding: 0.15rem 1rem;
+    height:55px;
+}
+.logout-div button{
+    width: 100%;
+    padding: 12px 20px;
+    background-color: rgb(232, 229, 229);
+    color: rgb(44, 49, 49);
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    top: 110%;
+    right: 65%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.logout-div button:hover{
+    background-color: rgb(193, 196, 198);
+}
+.down-css{
+    margin-left: 45%;
+    cursor: pointer;
+}
+form p {
+    margin-top: 20px;
+    color: #666;
+    font-size: 14px;
+}
+.logout{
+
+}
+form p a {
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+form p a:hover {
+    color: #555;
+}
+
+@media (max-width: 600px) {
+    form {
+        padding: 30px;
+    }
+
+    form input {
+        padding: 10px;
+    }
+
+    button {
+        padding: 10px 18px;
+    }
+}
