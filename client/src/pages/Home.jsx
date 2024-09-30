@@ -32,7 +32,7 @@ const Home = () => {
 
   useEffect(() => {
 
-    if (!currentUserID) return; // to stop infinite re-rendering
+    if (!currentUserID && !data) return; // to stop infinite re-rendering
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:3001/user/${currentUserID}`, {
@@ -95,7 +95,7 @@ const Home = () => {
     storingUserInfo();
 
 
-  }, [currentUserID, token, setAllPosts, setUserInfos]); ///YOU NEED TO CHANGE THIS AFTERWARDS
+  }, [currentUserID, token, setAllPosts, setUserInfos, setData]); ///YOU NEED TO CHANGE THIS AFTERWARDS
 
   const creatingPost = async (req, res) => {
     const formData = new FormData();
