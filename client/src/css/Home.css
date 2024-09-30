@@ -40,14 +40,14 @@ body {
 }
 
 .personal-section {
-    background-color: white;
-    height: 60vh;
-    width: 20%;
-    border-radius: 5%;
-    position: relative;
-    top: 5vh;
+    background-color: #fff;
+    border-radius: 2rem;
+    height: 63vh;
     left: 3%;
     padding: 1%;
+    position: relative;
+    top: 5vh;
+    width: 20%;
 }
 
 .personal-section img {
@@ -336,14 +336,14 @@ body {
 /*AD SECTION*/
 
 .ad {
-    height: 530px;
-    width: 30%;
+    background-color: #fff;
     border-radius: 1.5rem;
-    background-color: white;
-    position: absolute;
-    z-index: 100;
+    bottom: 13.5%;
+    height: 530px;
     left: 67%;
-    bottom: 17.5%;
+    position: absolute;
+    width: 30%;
+    z-index: 100;
 }
 
 .sponsered {

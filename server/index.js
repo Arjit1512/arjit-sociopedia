@@ -49,50 +49,47 @@ const uploadImageToFirebase = async (file) => {
     console.log('File to be uploaded:', file);
 
     try {
-      // Check if file exists and has valid data
-      if (!file || !file.path) {
-        throw new Error('Invalid file or file path');
-      }
-  
-      console.log('Uploading file:', file.originalname);
-  
-      const token = uuidv4(); // To make file public with a unique token
-      const metadata = {
-        metadata: {
-          firebaseStorageDownloadTokens: token
-        },
-        contentType: file.mimetype || 'application/octet-stream', // Fallback MIME type
-        cacheControl: 'public, max-age=31536000'
-      };
-  
-      const fileName = `${Date.now()}-${file.originalname}`;
-      const uploadResponse = await bucket.upload(file.path, {
-        destination: `images/${fileName}`,
-        metadata: metadata,
-      });
-  
-      console.log('File uploaded successfully:', uploadResponse);
-  
-      // Make file public
-      const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(uploadResponse[0].name)}?alt=media&token=${token}`;
-      return publicUrl;
+        // Check if file exists and has valid data
+        if (!file || !file.buffer) {
+            throw new Error('Invalid file or file buffer');
+        }
+
+        console.log('Uploading file:', file.originalname);
+
+        const token = uuidv4(); // To make file public with a unique token
+        const metadata = {
+            metadata: {
+                firebaseStorageDownloadTokens: token
+            },
+            contentType: file.mimetype || 'application/octet-stream', // Fallback MIME type
+            cacheControl: 'public, max-age=31536000'
+        };
+
+        const fileName = `${Date.now()}-${file.originalname}`;
+        const fileUpload = bucket.file(`images/${fileName}`);
+
+        // Upload file directly from buffer
+        await fileUpload.save(file.buffer, {
+            metadata: metadata,
+            public: true, // Make the file public
+        });
+
+        console.log('File uploaded successfully to Firebase Storage.');
+
+        // Generate the public URL
+        const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(fileUpload.name)}?alt=media&token=${token}`;
+        return publicUrl;
     } catch (error) {
-      console.error('Error during image upload:', error);
-      throw new Error('Failed to upload image to Firebase Storage');
+        console.error('Error during image upload:', error.message);  // Add detailed error message
+        throw new Error('Failed to upload image to Firebase Storage');
     }
-  };
-  
+};
+
+
   
 
-// Set up storage for uploaded files
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads'); // Specify the destination folder for uploads ------------------> (NOTE: 'cb' means callback) 
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    }
-});
+// Set up storage for uploaded files (in memory)
+const storage = multer.memoryStorage(); // Store files in memory
 
 // File filter to allow only image files
 const fileFilter = (req, file, cb) => {
@@ -106,8 +103,7 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
-const upload = multer({ storage, fileFilter });
-app.use('/uploads', express.static('uploads'));
+const upload = multer({ storage, fileFilter }); // Use memory storage
 
 
 //for jwt
@@ -129,33 +125,38 @@ const verifyToken = (req, res, next) => {
 
 app.post('/auth/register', upload.single('dp'), async (req, res) => {
     const { userName, email, password } = req.body;
-    console.log(req.body);
-    console.log(req.file);
-    try {
-        if (!userName || !email || !password) return res.status(200).json({ error: "Enter all the details!" });
+    console.log('User details:', req.body);
+    console.log('File details:', req.file);  // Add logging for req.file
 
+    try {
+        if (!userName || !email || !password) {
+            return res.status(400).json({ error: "Enter all the details!" });
+        }
 
         const existingUser = await User.findOne({ email });
-
         if (existingUser) {
             return res.status(200).json("old-user");
         }
 
         let imagePath = null;
-        if(req.file){
+        if (req.file) {
+            console.log('Uploading file to Firebase...');
             imagePath = await uploadImageToFirebase(req.file);
+            console.log('Image uploaded successfully. Path:', imagePath);
         }
 
         const newUser = new User({ email, password, userName, dp: imagePath });
-
-        const token = jwt.sign( {userId:newUser._id} , process.env.JWT_SECRET, {expiresIn:'30d'});
+        const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 
         await newUser.save();
-        return res.status(200).json({ message: "new-user",token, userId: newUser._id });
+        console.log('New user registered successfully:', newUser);
+        return res.status(200).json({ message: "new-user", token, userId: newUser._id });
     } catch (error) {
+        console.error('Error during registration:', error.message);  // Log detailed error
         return res.status(500).json({ error: "Internal Server Error" });
     }
-})
+});
+
 
 app.post('/auth/login', async (req, res) => {
     const { email, password } = req.body;
