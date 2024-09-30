@@ -38,7 +38,9 @@ body {
     margin-left: 5%;
     font-size: 1rem;
 }
-
+button.logout{
+    z-index:100;
+}
 .personal-section {
     background-color: #fff;
     border-radius: 2rem;
@@ -338,14 +340,13 @@ body {
 .ad {
     background-color: #fff;
     border-radius: 1.5rem;
-    bottom: 13.5%;
+    bottom: 10%;
     height: 530px;
     left: 67%;
     position: absolute;
     width: 30%;
     z-index: 100;
 }
-
 .sponsered {
     margin-left: 5%;
     font-family: Rubik, sans-serif;
