@@ -11,7 +11,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
-
+    axios.defaults.withCredentials=true;
     const {currentUserID,setCurrentUserID} = useMyContext();
 
     const handleSubmit = async (e) => {

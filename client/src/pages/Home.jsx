@@ -21,6 +21,7 @@ const Home = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const token = localStorage.getItem('token');
+  axios.defaults.withCredentials=true;
 
   const [data, setData] = useState({
     userName: '',

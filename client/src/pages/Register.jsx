@@ -13,7 +13,7 @@ const Register = () => {
     const [dp, setDp] = useState(null);
     const {currentUserID,setCurrentUserID} = useMyContext();
     const token = localStorage.getItem('token');
-
+    axios.defaults.withCredentials=true;
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
