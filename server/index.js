@@ -28,36 +28,20 @@ app.use(bodyParser.json({ limit: "30mb", extended: "true" }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: "true" }));
 
 // Initialize Firebase
-// Initialize Firebase
-console.log('Service Account Path:', process.env.FIREBASE_SERVICE_ACCOUNT_PATH);
-console.log('Storage Bucket:', process.env.FIREBASE_STORAGE_BUCKET);
+console.log('Firebase Project ID:', process.env.FIREBASE_SERVICE_ACCOUNT_PROJECT_ID);
+console.log('Firebase Storage Bucket:', process.env.FIREBASE_STORAGE_BUCKET);
 
-// Check if the service account file exists
-if (!fs.existsSync(path.resolve(process.env.FIREBASE_SERVICE_ACCOUNT_PATH))) {
-    console.error('Firebase service account file not found!');
-    process.exit(1); // Exit if the file does not exist
-}
-
-// Log raw file content to ensure it's being read correctly
-let serviceAccount;
-try {
-    const fileContent = fs.readFileSync(path.resolve(process.env.FIREBASE_SERVICE_ACCOUNT_PATH), 'utf8');
-    serviceAccount = JSON.parse(fileContent);
-} catch (error) {
-    console.error('Error reading or parsing the service account JSON:', error.message);
-    process.exit(1); // Stop execution if the file is invalid or cannot be parsed
-}
-
-// Initialize Firebase Admin SDK
+// Initialize Firebase Admin SDK with environment variables
 admin.initializeApp({
-    credential: admin.credential.cert({
-      projectId: process.env.FIREBASE_SERVICE_ACCOUNT_PROJECT_ID,
-      privateKey: process.env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY.replace(/\\n/g, '\n'),
-      clientEmail: process.env.FIREBASE_SERVICE_ACCOUNT_CLIENT_EMAIL,
-    }),
-    storageBucket: process.env.FIREBASE_STORAGE_BUCKET
-  });
-  
+  credential: admin.credential.cert({
+    projectId: process.env.FIREBASE_SERVICE_ACCOUNT_PROJECT_ID,
+    privateKey: process.env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    clientEmail: process.env.FIREBASE_SERVICE_ACCOUNT_CLIENT_EMAIL,
+  }),
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+});
+
+// Access Firebase Storage
 const bucket = admin.storage().bucket();
 
 
