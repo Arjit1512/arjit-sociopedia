@@ -70,12 +70,11 @@ h2 {
     margin: 0%;
     height:362px;
 }
-.s-div img{
-    width:320px;
-    border-radius: 2rem;
-    height:250px;
-    margin-left: 5%;
+.s-div img {
+    height: 240px;
+    margin-left: 1%;
     object-fit: cover;
+    width: 310px;
 }
 .s-div h3{
     color: gray;
