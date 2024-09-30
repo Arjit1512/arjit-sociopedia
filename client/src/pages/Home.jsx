@@ -35,7 +35,7 @@ const Home = () => {
     if (!currentUserID && !data) return; // to stop infinite re-rendering
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/user/${currentUserID}`, {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/${currentUserID}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -55,7 +55,7 @@ const Home = () => {
 
     const fetchAllPosts = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/posts');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/posts`);
         setAllPosts(response.data);
 
       } catch (error) {
@@ -67,7 +67,7 @@ const Home = () => {
     //get all user details stored in an array
     const storingUserInfo = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/users");
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/users`);
 
         console.log("All users data: ", response.data);
         const tempArray = response.data.reduce((acc, user) => {
@@ -106,7 +106,7 @@ const Home = () => {
         
 
     try {
-      const response = await axios.post(`http://localhost:3001/${currentUserID}/createPost`, formData, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/${currentUserID}/createPost`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}`
@@ -143,7 +143,7 @@ const Home = () => {
 
   async function handleAddFriend(friendId) {
     try {
-      const response = await axios.post(`http://localhost:3001/${currentUserID}/addFriend/${friendId}`, {}, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/${currentUserID}/addFriend/${friendId}`, {}, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -164,8 +164,11 @@ const Home = () => {
   }
 
   async function handleRemoveFriend(friendId) {
+    console.log('devara: ',currentUserID)
+    console.log('vara: ',friendId)
+    
     try {
-      const response = await axios.post(`http://localhost:3001/${currentUserID}/removeFriend/${friendId}`, {}, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/${currentUserID}/removeFriend/${friendId}`, {}, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

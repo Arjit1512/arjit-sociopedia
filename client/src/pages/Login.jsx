@@ -16,8 +16,9 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        //console.log('BACKEND URL: ',process.env.REACT_APP_BACKEND_URL);
         try {
-            const response = await axios.post('http://localhost:3001/auth/login', {
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, {
                 email:email,
                 password:password
             });

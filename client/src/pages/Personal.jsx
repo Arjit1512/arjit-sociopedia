@@ -25,7 +25,7 @@ const Personal = () => {
         if (!currentUserID) return;
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/user/${currentUserID}`, {
+                const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/${currentUserID}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -57,7 +57,7 @@ const Personal = () => {
             return;
         }
         try {
-            const response = await axios.post(`http://localhost:3001/${userId}/deletePost/${postId}`, {}, {
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/${userId}/deletePost/${postId}`, {}, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
