@@ -19,7 +19,8 @@ dotenv.config();
 
 app.use(cors({
     origin: ["http://localhost:3000","https://arjit-sociopedia.vercel.app"],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true
 }));
 app.options('*', cors()); 
 
