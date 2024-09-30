@@ -26,21 +26,36 @@ app.options('*', cors());
 app.use(bodyParser.json({ limit: "30mb", extended: "true" }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: "true" }));
 
-//initialize FireBase
-// console.log('Service Account Path:', process.env.FIREBASE_SERVICE_ACCOUNT_PATH);
-// console.log('Storage Bucket:', process.env.FIREBASE_STORAGE_BUCKET);
+// Initialize Firebase
+// Initialize Firebase
+console.log('Service Account Path:', process.env.FIREBASE_SERVICE_ACCOUNT_PATH);
+console.log('Storage Bucket:', process.env.FIREBASE_STORAGE_BUCKET);
 
+// Check if the service account file exists
+if (!fs.existsSync(path.resolve(process.env.FIREBASE_SERVICE_ACCOUNT_PATH))) {
+    console.error('Firebase service account file not found!');
+    process.exit(1); // Exit if the file does not exist
+}
 
-const serviceAccount = JSON.parse(fs.readFileSync(path.resolve(process.env.FIREBASE_SERVICE_ACCOUNT_PATH)));
-// console.log(serviceAccount);
-// console.log('Bucket name:', process.env.FIREBASE_STORAGE_BUCKET);
+// Log raw file content to ensure it's being read correctly
+let serviceAccount;
+try {
+    const fileContent = fs.readFileSync(path.resolve(process.env.FIREBASE_SERVICE_ACCOUNT_PATH), 'utf8');
+    serviceAccount = JSON.parse(fileContent);
+} catch (error) {
+    console.error('Error reading or parsing the service account JSON:', error.message);
+    process.exit(1); // Stop execution if the file is invalid or cannot be parsed
+}
 
+// Initialize Firebase Admin SDK
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET
+    credential: admin.credential.cert(serviceAccount),
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET
 });
 
+// Now that Firebase is initialized, you can use the bucket
 const bucket = admin.storage().bucket();
+
 
 const uploadImageToFirebase = async (file) => {
     console.log('File to be uploaded:', file);
