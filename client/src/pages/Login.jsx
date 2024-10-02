@@ -11,9 +11,9 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
-    axios.defaults.withCredentials=true;
     const {currentUserID,setCurrentUserID} = useMyContext();
-
+    axios.defaults.withCredentials=true;
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         //console.log('BACKEND URL: ',process.env.REACT_APP_BACKEND_URL);

@@ -14,7 +14,7 @@
 }
 .trash-icon {
     font-size: 24px;
-    color: #888;
+    color: black;
     cursor: pointer;
     transition: transform 0.3s ease, color 0.3s ease;
     margin-left: 85%;
@@ -75,9 +75,14 @@ h2 {
     margin-left: 1%;
     object-fit: cover;
     width: 310px;
+    border-radius: 1rem;
 }
 .s-div h3{
     color: gray;
     font-weight: 500;
     font-size: 1.1rem;
+}
+
+.mh5{
+    left:4%;
 }

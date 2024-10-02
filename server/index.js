@@ -24,12 +24,13 @@ app.use(cors({
 }));
 //app.options('*', cors()); 
 
+
 app.use(bodyParser.json({ limit: "30mb", extended: "true" }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: "true" }));
 
 // Initialize Firebase
-console.log('Firebase Project ID:', process.env.FIREBASE_SERVICE_ACCOUNT_PROJECT_ID);
-console.log('Firebase Storage Bucket:', process.env.FIREBASE_STORAGE_BUCKET);
+// console.log('Firebase Project ID:', process.env.FIREBASE_SERVICE_ACCOUNT_PROJECT_ID);
+// console.log('Firebase Storage Bucket:', process.env.FIREBASE_STORAGE_BUCKET);
 
 // Initialize Firebase Admin SDK with environment variables
 admin.initializeApp({
@@ -212,7 +213,7 @@ app.post('/:userId/createPost', verifyToken, upload.single('image'), async (req,
         if(req.file){
             imagePath = await uploadImageToFirebase(req.file); 
         }
-        console.log(imagePath)
+        //console.log(imagePath)
 
         const newPost = new Post({ userId, description, image: imagePath });
 
@@ -272,6 +273,35 @@ app.get('/users',async(req,res) => {
     } catch (error) {
         console.log('Error: ', error);
         return res.status(500).json({ error: "Internal Server Error" });
+    }
+})
+
+//to like Post
+app.post('/:postId/likePost/:userId' , async(req,res) => {
+    try{
+      const {userId,postId} = req.params;
+      
+      const post = await Post.findById(postId);
+      if(!post){
+        return res.status(404).json("Post does not exists!");
+      }
+      if (!post.likes) {
+        post.likes = [];
+      }
+
+      const isPresent = post.likes.includes(userId);
+      if(isPresent){
+        await Post.findByIdAndUpdate(postId, { $pull :{likes : userId}});
+
+        await post.save();
+        return res.status(200).json("Post Unliked Successfully!");
+      }
+
+      post.likes.push(userId);
+      await post.save();
+      return res.status(200).json("Post Liked Successfully!");
+    } catch(error){
+        console.log('Error: ',error);
     }
 })
 

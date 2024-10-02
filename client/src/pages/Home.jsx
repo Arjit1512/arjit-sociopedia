@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from '../firebase';
 import { faMapMarkerAlt, faBriefcase, faMoon } from '@fortawesome/free-solid-svg-icons';
@@ -18,10 +18,11 @@ const Home = () => {
   const [imagePath, setImagePath] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [friends,setFriends] = useState([]); 
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const token = localStorage.getItem('token');
-  axios.defaults.withCredentials=true;
+  axios.defaults.withCredentials = true;
 
   const [data, setData] = useState({
     userName: '',
@@ -33,7 +34,7 @@ const Home = () => {
 
   useEffect(() => {
 
-    if (!currentUserID && !data) return; // to stop infinite re-rendering
+    if (!currentUserID) return; // to stop infinite re-rendering
     const fetchData = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/${currentUserID}`, {
@@ -96,15 +97,15 @@ const Home = () => {
     storingUserInfo();
 
 
-  }, [currentUserID, token, setAllPosts, setUserInfos, setData]); ///YOU NEED TO CHANGE THIS AFTERWARDS
+  }, [currentUserID, token, setAllPosts, setUserInfos, friends]); ///YOU NEED TO CHANGE THIS AFTERWARDS
 
   const creatingPost = async (req, res) => {
     const formData = new FormData();
 
     formData.append('description', description);
     formData.append('image', imagePath);
-    console.log("IMAGEPATH BEFORE--------------------->",imagePath);
-        
+    console.log("IMAGEPATH BEFORE--------------------->", imagePath);
+
 
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/${currentUserID}/createPost`, formData, {
@@ -119,15 +120,15 @@ const Home = () => {
         alert("Post created successfully!");
         //window.location.reload();
 
-         
+
         const newData = ({
-          description:description,
-          image:response.data.imagePath,
-          userId:currentUserID,
-          _id:response.data.postId
+          description: description,
+          image: response.data.imagePath,
+          userId: currentUserID,
+          _id: response.data.postId
         });
 
-        setAllPosts((prevPosts) => [...prevPosts,newData]);
+        setAllPosts((prevPosts) => [...prevPosts, newData]);
 
         setDescription('');
         setImagePath('');
@@ -154,10 +155,16 @@ const Home = () => {
       //window.location.reload();
 
       //add friendId into this array
-      setData((prevData) => ({
-        ...prevData,
-        friends: [...prevData.friends, friendId]
+      // setData((prevData) => ({
+      //   ...prevData,
+      //   friends: [...prevData.friends, friendId]
+      // }))
+
+      setFriends((Friends) => ({
+        ...Friends,
+        _id:1
       }))
+
 
     } catch (error) {
       console.log('Error: ', error);
@@ -165,9 +172,9 @@ const Home = () => {
   }
 
   async function handleRemoveFriend(friendId) {
-    console.log('devara: ',currentUserID)
-    console.log('vara: ',friendId)
-    
+    console.log('devara: ', currentUserID)
+    console.log('vara: ', friendId)
+
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/${currentUserID}/removeFriend/${friendId}`, {}, {
         headers: {
@@ -178,15 +185,44 @@ const Home = () => {
       alert(response.data);
       //window.location.reload();
 
-      setData(prevData => ({
-        ...prevData,
-        friends: prevData.friends.filter(friend => friend !== friendId)
-      }));
+
+      // setData(prevData => ({
+      //   ...prevData,
+      //   friends: prevData.friends.filter(friend => friend !== friendId)
+      // }));
+
+      setFriends((Friends) => ({
+        ...Friends,
+        _id:2
+      }))
 
     } catch (error) {
       console.log('Error: ', error);
     }
   }
+
+  async function handleLike(postId, userId) {
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/${postId}/likePost/${userId}`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      alert(response.data);
+      
+      setFriends((Friends) => ({
+        ...Friends,
+        _id:3
+      }))
+
+
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
 
   console.log("All users INFO data: ", userInfos);
   console.log("All POSTS: ", allPosts);
@@ -295,6 +331,7 @@ const Home = () => {
 
 
         {allPosts.map((item) => {
+          const isLiked = item.likes && item.likes.includes(currentUserID);
           return (
             <div className='card'>
               <div className='flex-row'>
@@ -312,6 +349,17 @@ const Home = () => {
 
               <div className='outside-img'>
                 <img src={item.image} alt='feed.img' />
+                <div className='together-div'>
+                  <button
+                    onClick={() => handleLike(item._id, currentUserID)}
+                    className={`heart-button ${isLiked ? 'liked' : ''}`}
+                  >
+                    <FontAwesomeIcon icon={faHeart} />
+                  </button>
+                  <div className='move-h5'>
+                    <h5>{item.likes?.length || 0}</h5>
+                  </div>
+                </div>
               </div>
             </div>
           )

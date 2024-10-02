@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useMyContext } from './MyContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons'; 
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios'
 import '../css/Home.css';
 import '../css/Personal.css';
@@ -50,7 +50,7 @@ const Personal = () => {
     //console.log('SANINIKUDU POSTS= ', allPosts);
 
     async function handleDelete(userId, postId) {
-        console.log('DHEERA : ',postId);
+        console.log('DHEERA : ', postId);
         if (!postId) {
             console.log('Post ID is undefined or null');
             alert('No such post exists')
@@ -65,10 +65,10 @@ const Personal = () => {
 
             alert(response.data);
             if (response.data === "Post deleted successfully!") {
-                setAllPosts((prevPosts)=> prevPosts.filter((post) => post._id !== postId));
+                setAllPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
             }
 
-           
+
         } catch (error) {
             //console.log('Token:', token);
             console.log('Error: ', error);
@@ -95,7 +95,7 @@ const Personal = () => {
 
                 <div className='personal-posts'>
                     <h2>Posts</h2>
-                     
+
                     {allPosts?.map((post) => {
                         console.log('Post:', post);
                         return (
@@ -104,11 +104,14 @@ const Personal = () => {
                                     <div className='s-div'>
                                         <h3>{post.description}</h3>
                                         <img src={post?.image} alt='friend.jpg' />
-                                        <FontAwesomeIcon 
+                                        <FontAwesomeIcon
                                             icon={faTrash} 
-                                            className='trash-icon' 
-                                            onClick={() => handleDelete(currentUserID, post._id)} 
+                                            className='trash-icon'
+                                            onClick={() => handleDelete(currentUserID, post._id)}
                                         />
+                                        <div className='move-h5 mh5'>
+                                            <h5>Likes: <span style={{color:"gray"}}>{post.likes?.length || 0}</span></h5>
+                                        </div>
                                     </div>
                                 </div>
                             )
