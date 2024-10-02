@@ -13,10 +13,10 @@ body {
 .moon-button {
     background-color: transparent;
     position: relative;
-    left:35%;
+    left: 35%;
     top: 1.5vh;
-    height:40px;
-    width:40px;
+    height: 40px;
+    width: 40px;
     cursor: pointer;
     padding: 5px;
     font-size: 20px;
@@ -38,9 +38,11 @@ body {
     margin-left: 5%;
     font-size: 1rem;
 }
-button.logout{
-    z-index:100;
+
+button.logout {
+    z-index: 100;
 }
+
 .personal-section {
     background-color: #fff;
     border-radius: 2rem;
@@ -65,13 +67,16 @@ button.logout{
     left: 3%;
     top: 2%;
 }
-.first-div h2{
+
+.first-div h2 {
     cursor: pointer;
 }
-.first-div h2:hover{
+
+.first-div h2:hover {
     color: darkblue;
     text-decoration: underline
 }
+
 .move-up {
     position: relative;
     bottom: 1.5vh;
@@ -282,27 +287,43 @@ button.logout{
 
 .card {
     background-color: white;
-    border-radius: 5%;
-    height: 400px;
-    /* Fixed height for all cards */
+    border-radius: 1rem;
+    height: 436px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    /* To ensure the image doesn't overflow */
     padding: 5%;
     padding-bottom: 8%;
     margin-bottom: 5%;
     position: relative;
     bottom: 7vh;
 }
+.move-h5 {
+    position: relative;
+    bottom: 7.3vh;
+    left: 9%;
+    font-size: 1.2rem;
+}
+
+.heart-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #ccc;
+    transition: color 0.3s ease;
+}
+
+.heart-button:hover,
+.heart-button.liked {
+    color: red;
+}
 
 .card img {
     width: 100%;
     height: 300px;
     object-fit: cover;
-    /* Maintain image aspect ratio */
-    border-radius: 5%;
-    /* Optional: to match card's border radius */
+    border-radius: 1rem;
 }
 
 .card p {
@@ -310,6 +331,11 @@ button.logout{
     font-weight: 600;
     margin-top: 23px;
     text-transform: lowercase;
+}
+
+.together-div {
+    position: relative;
+    top: 3%;
 }
 
 .card .dp {
@@ -347,6 +373,7 @@ button.logout{
     width: 30%;
     z-index: 100;
 }
+
 .sponsered {
     margin-left: 5%;
     font-family: Rubik, sans-serif;
@@ -374,15 +401,15 @@ button.logout{
 
 /*FRIENDS SECTION*/
 .friends-div {
-    position: absolute;
-    z-index: 1000;
-    top: 88%;
-    left: 67%;
-    height: max-content;
-    width: 28%;
+    background-color: #fff;
     border-radius: 1.5rem;
-    background-color: white;
+    height: max-content;
+    left: 67%;
     padding: 1%;
+    position: absolute;
+    top: 94%;
+    width: 28%;
+    z-index: 1000;
 }
 
 .friends-div h4 {

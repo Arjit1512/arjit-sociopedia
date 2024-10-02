@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Mongoose } from 'mongoose';
 
 
 const PostSchema = new mongoose.Schema(
@@ -13,10 +13,12 @@ const PostSchema = new mongoose.Schema(
     description: {
       type: String
     },
-    likes: {
-      type: Number,
-      default: 0
-    },
+    likes: [
+      {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Sociopedia-User'
+      }
+    ],
     comments: [
       {
         type: String
