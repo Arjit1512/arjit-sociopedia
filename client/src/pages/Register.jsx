@@ -34,7 +34,7 @@ const Register = () => {
                     }
                 });
 
-            console.log('Response: ', response.data);
+            //console.log('Response: ', response.data);
 
             if (response.data === "old-user") {
                 alert("User already exists!")
