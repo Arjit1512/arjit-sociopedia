@@ -434,8 +434,8 @@ button.logout {
     border-radius: 100%;
 }
 
-.name-friend {
-    margin-left: 5%;
+.name-friend.nf {
+    margin-left: 3%;
 }
 
 .rf {

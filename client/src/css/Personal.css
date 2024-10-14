@@ -86,7 +86,7 @@ h2 {
 .mh5{
     left:4%;
 }
-.friends {
+.friends.p{
     display: flex;
     align-items: center; /* Center vertically */
     justify-content: space-between; /* Space between items */
