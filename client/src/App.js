@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Personal from "./pages/Personal";
 import SplashScreen from "./pages/SplashScreen";
 import { MyProvider } from "./pages/MyContext";
+import Chat from "./pages/Chat";
 
 const App = () => {
   return (
@@ -18,7 +19,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/personal/:currentUserID" element={<Personal />} />
             <Route path="/" element={<SplashScreen />} />
-
+            <Route path="/chat" element={<Chat />} />
           </Routes>
         </BrowserRouter>
       </MyProvider>

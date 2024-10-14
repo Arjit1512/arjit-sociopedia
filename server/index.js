@@ -11,6 +11,8 @@ import jwt from 'jsonwebtoken';
 import admin from 'firebase-admin';
 import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
+import Message from './models/Message.js';
+import { timeStamp } from 'console';
 
 const app = express();
 dotenv.config();
@@ -252,6 +254,78 @@ app.post('/:userId/deletePost/:postId', verifyToken, async (req, res) => {
     }
 })
 
+
+//to send a meesage to a friend
+app.post('/:userId/sendMessage/:friendId',verifyToken, async(req,res) => {
+   try{
+        const {userId,friendId} = req.params;
+        const {message} = req.body;
+        const user = await User.findById(userId);
+        const friend = await User.findById(friendId);
+        if(!user){
+            return res.status(200).json({message:"Please login to chat with your friends."});
+        }
+        if(!friend){
+            return res.status(200).json({message:"Your friend doesn't seem to have an account."});
+        }
+
+        if(!user.friends.includes(friendId)){
+            return res.status(200).json({message:"Need to be your friend, to chat!!"});
+        }
+        const newMessage = new Message({
+             userId:userId,
+             friendId:friendId,
+             message:message,
+             timeStamp:new Date()
+        })
+ 
+        await newMessage.save();
+        await User.findByIdAndUpdate(userId,{$push:{sent_messages: newMessage._id}});
+        await User.findByIdAndUpdate(friendId,{$push:{received_messages:newMessage._id}});
+
+
+        return res.status(200).json({message:"Text sent succesfully to your friend."});
+   }catch(error){
+        console.log('Error: ',error);
+   }
+})
+
+
+//to get meesages of a particular friend
+app.get('/:userId/getMessage/:friendId',verifyToken, async(req,res) => {
+    try{
+         const {userId,friendId} = req.params;
+         const user = await User.findById(userId);
+         const friend = await User.findById(friendId);
+         if(!user){
+             return res.status(200).json({message:"User does not exists."});
+         }
+         if(!friend){
+             return res.status(200).json({message:"Your friend doesn't seem to have an account."});
+         }
+ 
+         if(!user.friends.includes(friendId)){
+             return res.status(200).json({message:"Need to be your friend, to chat!!"});
+         }
+  
+         //display the array of sent_messages and received_messages that have this userId and friendId
+         const s_m = await Message.find({userId,friendId}).sort({timeStamp:1});
+         const r_m = await Message.find({friendId: userId, userId: friendId}).sort({timeStamp:1});
+
+         const allMessages = [...s_m,...r_m].sort((a,b) => a.timeStamp - b.timeStamp);
+         
+         return res.status(200).json({sent_messages:s_m, received_messages:r_m, all_messages:allMessages});
+    }catch(error){
+         console.log('Error: ',error);
+    }
+ })
+ 
+
+
+
+
+
+
 //to display all the posts
 app.get('/posts',async(req,res) => {
     try{
@@ -362,20 +436,6 @@ app.post('/:userId/removeFriend/:friendId', verifyToken, async (req, res) => {
         return res.status(500).json({ error: "Internal Server Error" });
     }
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 const PORT = process.env.PORT || 6001;
 mongoose.connect(process.env.MONGO_URL)
