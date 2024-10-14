@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams,useNavigate } from 'react-router-dom'
 import { useMyContext } from './MyContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -12,6 +12,9 @@ const Personal = () => {
     const { currentUserID } = useParams();
     const { userInfos, setUserInfos } = useMyContext();
     const { allPosts, setAllPosts } = useMyContext();
+    const { senderId, setSenderId } = useMyContext();
+    const { receiverId, setReceiverId } = useMyContext();
+    
     const token = localStorage.getItem('token');
     const [data, setData] = useState({
         userName: '',
@@ -19,7 +22,7 @@ const Personal = () => {
         email: '',
         friends: []
     });
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!currentUserID) return;
@@ -76,6 +79,12 @@ const Personal = () => {
         }
     }
 
+    async function handleChat(userId,friendId){
+            setSenderId(userId);
+            setReceiverId(friendId);
+            navigate("/chat");
+    }
+
     return (
         <>
             <div className='entire-personal-div'>
@@ -88,6 +97,7 @@ const Personal = () => {
                             <div className='friends flex-row'>
                                 <img src={userInfos[friend]?.dp} alt='friend.jpg' />
                                 <h3 className='name-friend'>{userInfos[friend]?.userName}</h3>
+                                <button className='chat-button' style={{cursor:"pointer"}} onClick={()=>handleChat(currentUserID,friend)}>Chat</button>
                             </div>
                         )
                     })}

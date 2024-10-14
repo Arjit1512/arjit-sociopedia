@@ -86,3 +86,36 @@ h2 {
 .mh5{
     left:4%;
 }
+.friends {
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: space-between; /* Space between items */
+    margin-bottom: 10px; /* Spacing between friend entries */
+}
+.name-friend{
+    margin-left: -34%;
+}
+.chat-button {
+    padding: 5px 10px;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    width: 90px;
+    height: 37px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.chat-button:hover {
+    background: linear-gradient(135deg, #0ba713, #4CAF50);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.chat-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
