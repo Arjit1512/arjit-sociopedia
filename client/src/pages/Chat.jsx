@@ -13,7 +13,7 @@ const Chat = () => {
     const [chatHistory, setChatHistory] = useState([]);
     const [flagArray, setFlagArray] = useState([]);
     axios.defaults.withCredentials = true;
-    
+
     useEffect(() => {
         const displayChat = async () => {
             try {
@@ -22,7 +22,7 @@ const Chat = () => {
                         Authorization: `Bearer ${token}`
                     }
                 })
-                console.log('Chat History: ', response.data);
+                //console.log('Chat History: ', response.data);
                 setChatHistory(response.data.all_messages);
             } catch (error) {
                 console.log('Error: ', error);

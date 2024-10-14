@@ -43,11 +43,11 @@ const Home = () => {
           }
         });
 
-        console.log('CurrentUserID: ', currentUserID);
-        console.log('Response Data: ', response.data);
+        //console.log('CurrentUserID: ', currentUserID);
+        //console.log('Response Data: ', response.data);
         setData({ userName: response.data.userName, dp: response.data.dp, email: response.data.email, friends: response.data.friends })
 
-        console.log('Data: ', data);
+        //console.log('Data: ', data);
 
 
       } catch (error) {
@@ -71,7 +71,7 @@ const Home = () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/users`);
 
-        console.log("All users data: ", response.data);
+        //console.log("All users data: ", response.data);
         const tempArray = response.data.reduce((acc, user) => {
           acc[user._id] = {
             userName: user.userName,
@@ -104,7 +104,7 @@ const Home = () => {
 
     formData.append('description', description);
     formData.append('image', imagePath);
-    console.log("IMAGEPATH BEFORE--------------------->", imagePath);
+    //console.log("IMAGEPATH BEFORE--------------------->", imagePath);
 
 
     try {
@@ -115,7 +115,7 @@ const Home = () => {
         }
       })
 
-      console.log('RESPONSE UNGAMMA!  ====', response.data)
+      //console.log('RESPONSE UNGAMMA!  ====', response.data)
       if (response.data.message === "Post created successfully!") {
         alert("Post created successfully!");
         //window.location.reload();
@@ -172,8 +172,8 @@ const Home = () => {
   }
 
   async function handleRemoveFriend(friendId) {
-    console.log('devara: ', currentUserID)
-    console.log('vara: ', friendId)
+    //console.log('devara: ', currentUserID)
+    //console.log('vara: ', friendId)
 
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/${currentUserID}/removeFriend/${friendId}`, {}, {
@@ -224,8 +224,8 @@ const Home = () => {
 
 
 
-  console.log("All users INFO data: ", userInfos);
-  console.log("All POSTS: ", allPosts);
+  //console.log("All users INFO data: ", userInfos);
+  //console.log("All POSTS: ", allPosts);
 
 
   //console.log('PARTICULAR USER:::: ', userInfos["66f3ce9cf1aef7f45418325a"]?.friends)

@@ -35,10 +35,10 @@ const Personal = () => {
                 });
 
                 console.log('CurrentUserID: ', currentUserID);
-                console.log('Response Data: ', response.data);
+                //console.log('Response Data: ', response.data);
                 setData({ userName: response.data.userName, dp: response.data.dp, email: response.data.email, friends: response.data.friends })
 
-                console.log('Data: ', data);
+                //console.log('Data: ', data);
 
 
             } catch (error) {
@@ -53,7 +53,7 @@ const Personal = () => {
     //console.log('SANINIKUDU POSTS= ', allPosts);
 
     async function handleDelete(userId, postId) {
-        console.log('DHEERA : ', postId);
+        //console.log('DHEERA : ', postId);
         if (!postId) {
             console.log('Post ID is undefined or null');
             alert('No such post exists')
@@ -73,7 +73,6 @@ const Personal = () => {
 
 
         } catch (error) {
-            //console.log('Token:', token);
             console.log('Error: ', error);
             alert("Failed to delete post. Please try again.");
         }
@@ -107,7 +106,7 @@ const Personal = () => {
                     <h2>Posts</h2>
 
                     {allPosts?.map((post) => {
-                        console.log('Post:', post);
+                        //console.log('Post:', post);
                         return (
                             post.userId === currentUserID && (
                                 <div className='seperate-div' key={post._id}>

@@ -23,7 +23,7 @@ const Login = () => {
                 password:password
             });
 
-            console.log('Response: ',response.data);
+            //console.log('Response: ',response.data);
 
             if(response.data==="new-user"){
                 alert("User does not exists!")
