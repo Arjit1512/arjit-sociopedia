@@ -93,7 +93,7 @@ const Personal = () => {
                     <h4 className='friend-list'>Friends List</h4>
                     {data?.friends.map((friend) => {
                         return (
-                            <div className='friends flex-row'>
+                            <div className='friends p flex-row'>
                                 <img src={userInfos[friend]?.dp} alt='friend.jpg' />
                                 <h3 className='name-friend'>{userInfos[friend]?.userName}</h3>
                                 <button className='chat-button' style={{cursor:"pointer"}} onClick={()=>handleChat(currentUserID,friend)}>Chat</button>

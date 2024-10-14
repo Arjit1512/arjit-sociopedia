@@ -390,7 +390,7 @@ const Home = () => {
           return (
             <div className='friends flex-row'>
               <img src={userInfos[friend]?.dp} alt='friend.jpg' />
-              <h3 className='name-friend'>{userInfos[friend]?.userName}</h3>
+              <h3 className='name-friend nf'>{userInfos[friend]?.userName}</h3>
               <button className='rf' onClick={() => handleRemoveFriend(friend)}>Remove Friend</button>
             </div>
           )
