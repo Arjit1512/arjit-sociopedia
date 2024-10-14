@@ -3,6 +3,7 @@
 # dependencies
 client/node_modules
 server/node_modules
+node_modules/
 /.pnp
 .pnp.js
 
@@ -13,12 +14,10 @@ server/node_modules
 /build
 
 .env
-# .gitignore
-#server/firebaseServiceAccountKey.json
 
 # firebaseServiceAccountKey.json
 # server/firebaseServiceAccountKey.json
-# ./server/firebaseServiceAccountKey.json
+#/server/firebaseServiceAccountKey.json
 
 /server/uploads
 
