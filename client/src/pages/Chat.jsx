@@ -12,7 +12,8 @@ const Chat = () => {
     const [newMessage, setNewMessage] = useState('');
     const [chatHistory, setChatHistory] = useState([]);
     const [flagArray, setFlagArray] = useState([]);
-
+    axios.defaults.withCredentials = true;
+    
     useEffect(() => {
         const displayChat = async () => {
             try {
