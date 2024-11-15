@@ -12,7 +12,7 @@
 }
 
 .splash-title {
-    font-size: 5rem;
+    font-size: 2rem;
     font-weight: bold;
     opacity: 0;
     animation: fadeInMove 1.5s ease forwards;
