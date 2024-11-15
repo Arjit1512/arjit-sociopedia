@@ -112,3 +112,22 @@
 .chat-input button:hover {
     background-color: #45a049;
 }
+@media screen and (max-width:470px) {
+    .chat-container {
+       width: 92%;
+    }
+    .chat-header {
+       font-size: 13px;
+    }
+    .chat-header .friend-dp {
+       right: -13%;
+    } 
+    .chat-history {
+        width: 90%;
+    }   
+    .message-bubble {
+        max-width: 39%;
+        font-size: 13px;
+        margin-left: 1px;
+    }    
+}

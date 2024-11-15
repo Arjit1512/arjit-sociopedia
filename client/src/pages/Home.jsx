@@ -384,7 +384,7 @@ const Home = () => {
           growing company, we provide an exciting environment.</p>
       </div>
 
-      <div className='friends-div'>
+      <div className='friends-div inv'>
         <h4 className='friend-list'>Friend List</h4>
         {userInfos[currentUserID]?.friends.map((friend) => {
           return (

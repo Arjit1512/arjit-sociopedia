@@ -119,3 +119,27 @@ h2 {
     transform: translateY(1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+@media screen and (max-width:470px) {
+    .personal-posts {
+        width: 284%;
+        left: 6%;
+        flex-direction: column;
+        top:105%;
+    } 
+    body{
+        overflow-x: hidden;
+    }
+    .friends-div {
+        visibility: visible;
+        width: 90%;
+    } 
+    .name-friend {
+        font-size: 0.9rem;
+    }
+    .chat-button {
+        width: 82px;
+        position: relative;
+        right:5%;
+    }
+}
