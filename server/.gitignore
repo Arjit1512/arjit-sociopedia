@@ -14,10 +14,11 @@ node_modules/
 /build
 
 .env
+/.env
 
 # firebaseServiceAccountKey.json
 # server/firebaseServiceAccountKey.json
-#/server/firebaseServiceAccountKey.json
+# /server/firebaseServiceAccountKey.json
 
 /server/uploads
 

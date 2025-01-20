@@ -13,6 +13,7 @@ server/node_modules
 /build
 
 .env
+server/.env
 # .gitignore
 #server/firebaseServiceAccountKey.json
 
