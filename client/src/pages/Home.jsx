@@ -129,6 +129,10 @@ const Home = () => {
         });
 
         setAllPosts((prevPosts) => [...prevPosts, newData]);
+        setFriends((Friends) => ({
+          ...Friends,
+          _id:1
+        }))
 
         setDescription('');
         setImagePath('');

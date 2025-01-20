@@ -13,6 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
 import Message from './models/Message.js';
 import { timeStamp } from 'console';
+import AWS from 'aws-sdk';
 
 const app = express();
 dotenv.config();
@@ -48,45 +49,45 @@ admin.initializeApp({
 const bucket = admin.storage().bucket();
 
 
-const uploadImageToFirebase = async (file) => {
-    console.log('File to be uploaded:', file);
+// const uploadImageToFirebase = async (file) => {
+//     console.log('File to be uploaded:', file);
 
-    try {
-        // Check if file exists and has valid data
-        if (!file || !file.buffer) {
-            throw new Error('Invalid file or file buffer');
-        }
+//     try {
+//         // Check if file exists and has valid data
+//         if (!file || !file.buffer) {
+//             throw new Error('Invalid file or file buffer');
+//         }
 
-        console.log('Uploading file:', file.originalname);
+//         console.log('Uploading file:', file.originalname);
 
-        const token = uuidv4(); // To make file public with a unique token
-        const metadata = {
-            metadata: {
-                firebaseStorageDownloadTokens: token
-            },
-            contentType: file.mimetype || 'application/octet-stream', // Fallback MIME type
-            cacheControl: 'public, max-age=31536000'
-        };
+//         const token = uuidv4(); // To make file public with a unique token
+//         const metadata = {
+//             metadata: {
+//                 firebaseStorageDownloadTokens: token
+//             },
+//             contentType: file.mimetype || 'application/octet-stream', // Fallback MIME type
+//             cacheControl: 'public, max-age=31536000'
+//         };
 
-        const fileName = `${Date.now()}-${file.originalname}`;
-        const fileUpload = bucket.file(`images/${fileName}`);
+//         const fileName = `${Date.now()}-${file.originalname}`;
+//         const fileUpload = bucket.file(`images/${fileName}`);
 
-        // Upload file directly from buffer
-        await fileUpload.save(file.buffer, {
-            metadata: metadata,
-            public: true, // Make the file public
-        });
+//         // Upload file directly from buffer
+//         await fileUpload.save(file.buffer, {
+//             metadata: metadata,
+//             public: true, // Make the file public
+//         });
 
-        console.log('File uploaded successfully to Firebase Storage.');
+//         console.log('File uploaded successfully to Firebase Storage.');
 
-        // Generate the public URL
-        const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(fileUpload.name)}?alt=media&token=${token}`;
-        return publicUrl;
-    } catch (error) {
-        console.error('Error during image upload:', error.message);  // Add detailed error message
-        throw new Error('Failed to upload image to Firebase Storage');
-    }
-};
+//         // Generate the public URL
+//         const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(fileUpload.name)}?alt=media&token=${token}`;
+//         return publicUrl;
+//     } catch (error) {
+//         console.error('Error during image upload:', error.message);  // Add detailed error message
+//         throw new Error('Failed to upload image to Firebase Storage');
+//     }
+// };
 
 
   
@@ -107,6 +108,30 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({ storage, fileFilter }); // Use memory storage
+
+//for S3
+
+const s3 = new AWS.S3({
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: process.env.AWS_REGION
+});
+
+const uploadImageToS3 = async (file) => {
+    const params = {
+        Bucket: process.env.S3_BUCKET_NAME,
+        Key: `images/${Date.now()}-${file.originalname}`,
+        Body: file.buffer,
+        ContentType: file.mimetype,
+    };
+
+    try {
+        return (await s3.upload(params).promise()).Location;
+    } catch (error) {
+        throw new Error(`S3 Upload Error: ${error.message}`);
+    }
+};
+
 
 
 //for jwt
@@ -144,7 +169,7 @@ app.post('/auth/register', upload.single('dp'), async (req, res) => {
         let imagePath = null;
         if (req.file) {
             console.log('Uploading file to Firebase...');
-            imagePath = await uploadImageToFirebase(req.file);
+            imagePath = await uploadImageToS3(req.file);
             console.log('Image uploaded successfully. Path:', imagePath);
         }
 
@@ -213,11 +238,11 @@ app.post('/:userId/createPost', verifyToken, upload.single('image'), async (req,
         }
         let imagePath='';
         if(req.file){
-            imagePath = await uploadImageToFirebase(req.file); 
+            imagePath = await uploadImageToS3(req.file); 
         }
-        //console.log(imagePath)
+        console.log(imagePath)
 
-        const newPost = new Post({ userId, description, image: imagePath });
+        const newPost = new Post({ userId, description, image: imagePath , timeStamp: new Date() });
 
         await newPost.save();
         existingUser.posts.push(newPost._id);
@@ -329,7 +354,7 @@ app.get('/:userId/getMessage/:friendId',verifyToken, async(req,res) => {
 //to display all the posts
 app.get('/posts',async(req,res) => {
     try{
-      const posts = await Post.find();
+      const posts = await Post.find().sort({timeStamp:-1});
 
       return res.status(200).json(posts);
     } catch (error) {
