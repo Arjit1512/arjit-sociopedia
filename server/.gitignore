@@ -13,9 +13,8 @@ node_modules/
 # production
 /build
 
-.env
 /.env
-
+.env
 # firebaseServiceAccountKey.json
 # server/firebaseServiceAccountKey.json
 # /server/firebaseServiceAccountKey.json

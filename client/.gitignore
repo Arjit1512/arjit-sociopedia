@@ -14,7 +14,6 @@ server/node_modules
 
 #/server
 .env
-/server/.env
 # firebaseServiceAccountKey.json
 # server/firebaseServiceAccountKey.json
 # /server/firebaseServiceAccountKey.json
