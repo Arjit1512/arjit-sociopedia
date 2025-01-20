@@ -129,14 +129,14 @@ const Home = () => {
         });
 
         setAllPosts((prevPosts) => [...prevPosts, newData]);
+        
+        setDescription('');
+        setImagePath('');
+        fileInputRef.current.value = '';
         setFriends((Friends) => ({
           ...Friends,
           _id:1
         }))
-
-        setDescription('');
-        setImagePath('');
-        fileInputRef.current.value = '';
       }
 
 

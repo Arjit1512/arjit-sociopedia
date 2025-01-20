@@ -168,10 +168,16 @@ app.post('/auth/register', upload.single('dp'), async (req, res) => {
 
         let imagePath = null;
         if (req.file) {
-            console.log('Uploading file to Firebase...');
-            imagePath = await uploadImageToS3(req.file);
-            console.log('Image uploaded successfully. Path:', imagePath);
+            try {
+                console.log('Uploading file to S3...');
+                imagePath = await uploadImageToS3(req.file);
+                console.log('Image uploaded successfully. Path:', imagePath);
+            } catch (uploadError) {
+                console.error('Error uploading file to S3:', uploadError.message);
+                return res.status(500).json({ error: 'Error uploading file' });
+            }
         }
+        
 
         const newUser = new User({ email, password, userName, dp: imagePath });
         const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
