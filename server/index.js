@@ -112,14 +112,14 @@ const upload = multer({ storage, fileFilter }); // Use memory storage
 //for S3
 
 const s3 = new AWS.S3({
-    accessKeyId: 'AKIARZ5BNCVE6MRHQRHU',
-    secretAccessKey: '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',
-    region: 'us-east-1'
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: process.env.AWS_REGION
 });
 
 const uploadImageToS3 = async (file) => {
     const params = {
-        Bucket: 'sociopedia-bucket',
+        Bucket: process.env.S3_BUCKET_NAME,
         Key: `images/${Date.now()}-${file.originalname}`,
         Body: file.buffer,
         ContentType: file.mimetype,
