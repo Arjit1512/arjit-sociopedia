@@ -10,7 +10,7 @@ SocioPedia is a social networking application that allows users to create profil
 - User profile management
 - Chat feature for real-time communication
 - Like and share posts
-- Friend management (Add, remove, block)
+- Friend management (Add, Remove)
 - Post content creation and sharing
 
 ## Tech Stack
