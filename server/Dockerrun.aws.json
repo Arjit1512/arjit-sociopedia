@@ -1,0 +1,13 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+      "Name": "public.ecr.aws/d1j3j6n2/arjit-sociopedia-server:latest",
+      "Update": "true"
+    },
+    "Ports": [
+      {
+        "ContainerPort": "3001"
+      }
+    ]
+  }
+  

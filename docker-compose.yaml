@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  client:
+    build:
+      context: ./client
+    ports:
+      - "8080:80" # Map host port 8080 to container port 80
+    networks:
+      - mern-network
+    environment:
+      - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL} # Use the .env variable
+
+  server:
+    build:
+      context: ./server
+    ports:
+      - "3001:3001" # Map host port 3001 to container port 3001
+    networks:
+      - mern-network
+    environment:
+      - MONGO_URL=${MONGO_URL}
+      - PORT=${PORT}
+      - JWT_SECRET=${JWT_SECRET}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME}
+      - AWS_REGION=${AWS_REGION}
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    container_name: mern-mongo
+    ports:
+      - "27017:27017" # Map host port 27017 to container port 27017
+    volumes:
+      - mern-db:/data/db
+    networks:
+      - mern-network
+
+networks:
+  mern-network:
+    driver: bridge
+
+volumes:
+  mern-db:
