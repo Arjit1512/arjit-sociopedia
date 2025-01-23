@@ -29,23 +29,14 @@ SocioPedia is a social networking application that allows users to create profil
 1. Clone the repository:
    ```bash
    git clone https://github.com/Arjit1512/arjit-sociopedia.git
-Navigate to the project directory:
+2. Navigate to the project directory:
 
-bash
-Copy
-Edit
-cd arjit-sociopedia
-Install the required dependencies:
+   Install the required dependencies:
+   ```bash
+   npm install
 
-bash
-Copy
-Edit
-npm install
-Set up the environment variables in a .env file (refer to .env.example for the required variables).
+   Set up the environment variables in a .env file (refer to .env.example for the required variables).
 
-Start the application:
-
-bash
-Copy
-Edit
-npm start
+3. Start the application:
+   ```bash
+   npm start
