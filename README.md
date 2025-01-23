@@ -36,7 +36,7 @@ SocioPedia is a social networking application that allows users to create profil
 2. Navigate to the project directory:
 
    Install the required dependencies:
-   Set up the environment variables in a .env file (refer to .env.example for the required variables).
+   (Set up the environment variables in a .env file)
    ```bash
    npm install
 
