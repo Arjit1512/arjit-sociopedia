@@ -11,7 +11,7 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [dp, setDp] = useState(null);
-    const {currentUserID,setCurrentUserID} = useMyContext();
+    const currentUserID = localStorage.getItem('currentUserID');
     const token = localStorage.getItem('token');
     axios.defaults.withCredentials=true;
     const navigate = useNavigate();
@@ -42,7 +42,7 @@ const Register = () => {
             else if (response.data.message === "new-user") {
                 console.log("Registration successful!");
                 localStorage.setItem('token',response.data.token);
-                setCurrentUserID(response.data.userId);
+                localStorage.setItem('currentUserID',response.data.userId);
                 navigate("/home");
             }
             else if (response.data.error === "Enter all the details!") {

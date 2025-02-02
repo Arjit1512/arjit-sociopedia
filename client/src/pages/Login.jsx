@@ -11,7 +11,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
-    const {currentUserID,setCurrentUserID} = useMyContext();
+    const currentUserID = localStorage.getItem('currentUserID');
     axios.defaults.withCredentials=true;
     
     const handleSubmit = async (e) => {
@@ -31,7 +31,7 @@ const Login = () => {
             else if(response.data.message==="old-user"){
                 console.log("Login successful!");
                 localStorage.setItem('token',response.data.token);
-                setCurrentUserID(response.data.userId);
+                localStorage.setItem('currentUserID',response.data.userId);
                 navigate("/home");
             }
             else if(response.data==="wrong-password"){

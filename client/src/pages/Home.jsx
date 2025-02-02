@@ -11,7 +11,7 @@ import { storage } from '../firebase';
 import { faMapMarkerAlt, faBriefcase, faMoon } from '@fortawesome/free-solid-svg-icons';
 const Home = () => {
 
-  const { currentUserID, setCurrentUserID } = useMyContext();
+  const currentUserID = localStorage.getItem('currentUserID');
   const { allPosts, setAllPosts } = useMyContext();
   const { userInfos, setUserInfos } = useMyContext();
   const [description, setDescription] = useState('');
@@ -245,7 +245,7 @@ const Home = () => {
   };
   const handleLogout = async () => {
     localStorage.removeItem('token');
-    setCurrentUserID(null);
+    localStorage.setItem('currentUserID',null);
     navigate("/login");
   }
 
