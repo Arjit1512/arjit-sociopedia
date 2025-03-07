@@ -192,9 +192,12 @@ app.post('/auth/register', upload.single('dp'), async (req, res) => {
 
     try {
         if (!userName || !email || !password) {
-            return res.status(400).json({ error: "Enter all the details!" });
+            return res.status(200).json({ error: "Enter all the details!" });
         }
-
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(200).json({ message: "Invalid email format" });
+        }
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(200).json("old-user");

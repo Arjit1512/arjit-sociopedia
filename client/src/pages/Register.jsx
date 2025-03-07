@@ -48,6 +48,9 @@ const Register = () => {
             else if (response.data.error === "Enter all the details!") {
                 alert("Enter all the details!");
             }
+            else if(response.data.message==="Invalid email format"){
+                alert(response.data.message);
+            }
             else
                 alert("Error occured, kindly try after some time!");
 

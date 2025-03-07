@@ -50,7 +50,7 @@ const Chat = () => {
     return (
         <div className="chat-container">
             <div className="chat-header">
-                <h3>Chatting with {userInfos[receiverId].userName}</h3>
+                <h3>Chatting with {userInfos[receiverId]?.userName}</h3>
                 <img className='friend-dp' src={userInfos[receiverId]?.dp} alt='friend.dp' />
             </div>
 
