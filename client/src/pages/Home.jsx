@@ -9,16 +9,19 @@ import { faCaretDown, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from '../firebase';
 import { faMapMarkerAlt, faBriefcase, faMoon } from '@fortawesome/free-solid-svg-icons';
+import Loader from './Loader';
+
 const Home = () => {
 
   const currentUserID = localStorage.getItem('currentUserID');
   const { allPosts, setAllPosts } = useMyContext();
   const { userInfos, setUserInfos } = useMyContext();
   const [description, setDescription] = useState('');
+  const [loading, setLoading] = useState(false);
   const [imagePath, setImagePath] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [friends,setFriends] = useState([]); 
+  const [friends, setFriends] = useState([]);
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const token = localStorage.getItem('token');
@@ -101,7 +104,6 @@ const Home = () => {
 
   const creatingPost = async (req, res) => {
     const formData = new FormData();
-
     formData.append('description', description);
     formData.append('image', imagePath);
     //console.log("IMAGEPATH BEFORE--------------------->", imagePath);
@@ -117,9 +119,6 @@ const Home = () => {
 
       //console.log('RESPONSE UNGAMMA!  ====', response.data)
       if (response.data.message === "Post created successfully!") {
-        alert("Post created successfully!");
-        //window.location.reload();
-
 
         const newData = ({
           description: description,
@@ -129,13 +128,13 @@ const Home = () => {
         });
 
         setAllPosts((prevPosts) => [...prevPosts, newData]);
-        
+
         setDescription('');
         setImagePath('');
         fileInputRef.current.value = '';
         setFriends((Friends) => ({
           ...Friends,
-          _id:1
+          _id: 1
         }))
       }
 
@@ -149,6 +148,7 @@ const Home = () => {
 
   async function handleAddFriend(friendId) {
     try {
+      setLoading(true);
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/${currentUserID}/addFriend/${friendId}`, {}, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -166,19 +166,21 @@ const Home = () => {
 
       setFriends((Friends) => ({
         ...Friends,
-        _id:1
+        _id: 1
       }))
 
 
     } catch (error) {
       console.log('Error: ', error);
+    } finally {
+      setLoading(false);
     }
   }
 
   async function handleRemoveFriend(friendId) {
     //console.log('devara: ', currentUserID)
     //console.log('vara: ', friendId)
-
+    setLoading(true);
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/${currentUserID}/removeFriend/${friendId}`, {}, {
         headers: {
@@ -197,15 +199,18 @@ const Home = () => {
 
       setFriends((Friends) => ({
         ...Friends,
-        _id:2
+        _id: 2
       }))
 
     } catch (error) {
       console.log('Error: ', error);
+    } finally {
+      setLoading(false);
     }
   }
 
   async function handleLike(postId, userId) {
+    setLoading(true)
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/${postId}/likePost/${userId}`, {}, {
         headers: {
@@ -213,16 +218,18 @@ const Home = () => {
         }
       })
       alert(response.data);
-      
+
       setFriends((Friends) => ({
         ...Friends,
-        _id:3
+        _id: 3
       }))
 
 
 
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -245,9 +252,14 @@ const Home = () => {
   };
   const handleLogout = async () => {
     localStorage.removeItem('token');
-    localStorage.setItem('currentUserID',null);
+    localStorage.setItem('currentUserID', null);
     navigate("/login");
   }
+
+  if (loading) {
+    return <Loader />
+  }
+
 
   return (
     <div>

@@ -11,14 +11,15 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [dp, setDp] = useState(null);
+    const [loading, setLoading] = useState(false);
     const currentUserID = localStorage.getItem('currentUserID');
     const token = localStorage.getItem('token');
-    axios.defaults.withCredentials=true;
+    axios.defaults.withCredentials = true;
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        setLoading(true);
         const formData = new FormData();
         formData.append('userName', userName);
         formData.append('email', email);
@@ -41,14 +42,14 @@ const Register = () => {
             }
             else if (response.data.message === "new-user") {
                 console.log("Registration successful!");
-                localStorage.setItem('token',response.data.token);
-                localStorage.setItem('currentUserID',response.data.userId);
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('currentUserID', response.data.userId);
                 navigate("/home");
             }
             else if (response.data.error === "Enter all the details!") {
                 alert("Enter all the details!");
             }
-            else if(response.data.message==="Invalid email format"){
+            else if (response.data.message === "Invalid email format") {
                 alert(response.data.message);
             }
             else
@@ -56,6 +57,8 @@ const Register = () => {
 
         } catch (error) {
             console.log('Error: ', error);
+        } finally {
+            setLoading(false)
         }
     }
 

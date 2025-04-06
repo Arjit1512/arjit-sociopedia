@@ -1,48 +1,57 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../css/Register.css';
 import '../css/Login.css';
 import { useMyContext } from './MyContext';
+import Loader from './Loader';
 
 const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const token = localStorage.getItem('token');
     const currentUserID = localStorage.getItem('currentUserID');
-    axios.defaults.withCredentials=true;
-    
+    axios.defaults.withCredentials = true;
+
     const handleSubmit = async (e) => {
+        setLoading(true);
         e.preventDefault();
         //console.log('BACKEND URL: ',process.env.REACT_APP_BACKEND_URL);
         try {
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, {
-                email:email,
-                password:password
+                email: email,
+                password: password
             });
 
             //console.log('Response: ',response.data);
 
-            if(response.data==="new-user"){
+            if (response.data === "new-user") {
                 alert("User does not exists!")
             }
-            else if(response.data.message==="old-user"){
+            else if (response.data.message === "old-user") {
                 console.log("Login successful!");
-                localStorage.setItem('token',response.data.token);
-                localStorage.setItem('currentUserID',response.data.userId);
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('currentUserID', response.data.userId);
                 navigate("/home");
             }
-            else if(response.data==="wrong-password"){
+            else if (response.data === "wrong-password") {
                 alert("Wrong password entered!");
             }
             else
-            alert("Error occured, kindly try after some time!");
-            
+                alert("Error occured, kindly try after some time!");
+
         } catch (error) {
             console.log('Error: ', error);
+        } finally {
+            setLoading(false);
         }
+    }
+
+    if (loading) {
+        return <Loader />
     }
 
     return (
@@ -53,7 +62,7 @@ const Login = () => {
                 <label>Password</label>
                 <input placeholder='Password' type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
                 <button type="submit">Submit</button>
-                <p>Doesn't have an account? <a onClick={()=>navigate("/register")} >Register</a></p>
+                <p>Doesn't have an account? <a onClick={() => navigate("/register")} >Register</a></p>
             </form>
         </div>
     )
